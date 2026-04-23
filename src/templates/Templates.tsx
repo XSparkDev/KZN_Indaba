@@ -76,9 +76,9 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
   };
 
   return (
-    <div className="min-h-screen font-sans">
+    <div className="min-h-screen font-sans bg-[#F5F0E8] text-[#1a1a1a]">
       {/* Hero Section */}
-      <header className="relative bg-white overflow-x-hidden">
+      <header className="relative bg-[#F5F0E8] overflow-x-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full hidden lg:block">
           <img 
             src="/assets/images/30.webp"
@@ -114,11 +114,11 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
               animate={{ opacity: 1, y: 0 }}
               className="mb-4"
             >
-              <h1 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase leading-[0.85] mt-2">
-                Investment <br />
-                <span className="text-jogeda-green">Conference</span>
+              <h1 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase leading-[0.85] mt-2 text-[#102e5d]">
+                Liquor Regulatory <br />
+                <span className="text-[#173a70]">Indaba 2026</span>
               </h1>
-              <p className="text-zinc-500 font-bold mt-6 max-w-lg">
+              <p className="text-[#6b7280] font-medium mt-6 max-w-lg">
                 Hosted by the Joe Gqabi Economic Development Agency (JoGEDA) in partnership with the Joe Gqabi District.
               </p>
             </motion.div>
@@ -129,36 +129,36 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
               transition={{ delay: 0.3 }}
               className="mt-12"
             >
-              <div className="text-jogeda-green font-display font-black text-5xl sm:text-7xl md:text-9xl uppercase leading-none">
+              <div className="text-[#D4860A] font-display font-black text-5xl sm:text-7xl md:text-9xl uppercase leading-none">
                 2026
               </div>
-              <div className="w-32 h-3 bg-jogeda-dark mt-4" />
+              <div className="w-32 h-3 bg-[#102e5d] mt-4" />
             </motion.div>
 
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-jogeda-green p-8 text-white shadow-xl shadow-jogeda-green/20">
-                <h3 className="font-display font-bold uppercase text-xs tracking-widest mb-4 text-jogeda-dark">The Theme</h3>
+              <div className="bg-[#173a70] p-8 text-white shadow-xl">
+                <h3 className="font-display font-bold uppercase text-xs tracking-widest mb-4 text-white">Theme</h3>
                 <p className="text-xl font-black leading-tight uppercase">
                   Investing in Real Economies: Growing Joe Gqabi Together
                 </p>
               </div>
               <div className="flex flex-col justify-center space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
-                    <Calendar className="text-jogeda-green w-5 h-5" />
+                  <div className="w-10 h-10 rounded-md border border-[#102e5d] bg-white flex items-center justify-center">
+                    <Calendar className="text-[#102e5d] w-5 h-5" />
                   </div>
-                  <span className="font-black uppercase tracking-widest text-sm">4th of June 2026</span>
+                  <span className="font-black uppercase tracking-widest text-sm text-[#102e5d]">4th of June 2026</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
-                    <MapPin className="text-jogeda-green w-5 h-5" />
+                  <div className="w-10 h-10 rounded-md border border-[#102e5d] bg-white flex items-center justify-center">
+                    <MapPin className="text-[#102e5d] w-5 h-5" />
                   </div>
-                  <span className="font-black uppercase tracking-widest text-sm">Joe Gqabi District</span>
+                  <span className="font-black uppercase tracking-widest text-sm text-[#102e5d]">Joe Gqabi District</span>
                 </div>
                 <div className="flex flex-wrap gap-4">
                   <button 
                     onClick={onRegister}
-                    className="inline-flex items-center justify-center bg-jogeda-dark text-white px-6 sm:px-10 py-5 font-display font-black uppercase tracking-widest text-center whitespace-nowrap hover:bg-jogeda-green hover:text-jogeda-dark transition-all w-fit shadow-lg shadow-black/10"
+                    className="inline-flex items-center justify-center bg-[#102e5d] text-white px-6 sm:px-10 py-5 font-display font-black uppercase tracking-widest text-center whitespace-nowrap hover:bg-[#173a70] transition-all w-fit shadow-lg"
                   >
                     Register Now
                   </button>
@@ -295,7 +295,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
       )}
 
       {/* About Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-[#F5F0E8]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
@@ -341,7 +341,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
       </section>
 
       {/* Leadership Messages */}
-      <section className="py-24 bg-zinc-50">
+      <section className="py-24 bg-[#efe9de]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="sub-heading">Leadership</span>
@@ -383,7 +383,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
       </section>
 
       {/* Priority Sectors */}
-      <section className="py-24 bg-jogeda-green text-white">
+      <section className="py-24 bg-[#173a70] text-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -438,7 +438,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
       <RegisterQrSection />
 
       {/* Partners Section */}
-      <section className="py-24 bg-white border-t border-zinc-100">
+      <section className="py-24 bg-[#F5F0E8] border-t border-[#d1d5db]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="sub-heading">Collaborators</span>
@@ -454,13 +454,13 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
       </section>
 
       {/* Contact Section */}
-      <footer className="bg-jogeda-dark text-white py-24">
+      <footer className="bg-[#102e5d] text-white py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20">
           <div>
-            <h2 className="font-display font-black text-5xl uppercase mb-12">Contact <span className="text-jogeda-green">Us</span></h2>
+            <h2 className="font-display font-black text-5xl uppercase mb-12">Contact <span className="text-[#D4860A]">Us</span></h2>
             <div className="space-y-8">
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-jogeda-green rounded-full flex items-center justify-center text-jogeda-dark">
+                <div className="w-12 h-12 bg-[#D4860A] rounded-md flex items-center justify-center text-white">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
@@ -469,7 +469,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-jogeda-green rounded-full flex items-center justify-center text-jogeda-dark">
+                <div className="w-12 h-12 bg-[#D4860A] rounded-md flex items-center justify-center text-white">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
@@ -478,7 +478,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-jogeda-green rounded-full flex items-center justify-center text-jogeda-dark">
+                <div className="w-12 h-12 bg-[#D4860A] rounded-md flex items-center justify-center text-white">
                   <Globe className="w-6 h-6" />
                 </div>
                 <div>
@@ -487,7 +487,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-jogeda-green rounded-full flex items-center justify-center text-jogeda-dark">
+                <div className="w-12 h-12 bg-[#D4860A] rounded-md flex items-center justify-center text-white">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
@@ -497,14 +497,14 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
               </div>
             </div>
           </div>
-          <div className="bg-white/5 p-12 rounded-3xl border border-white/10">
+          <div className="bg-[#173a70] p-12 rounded-3xl border border-white/10">
             <h3 className="text-2xl font-bold mb-8">Ready to invest?</h3>
             <p className="text-zinc-400 mb-8 leading-relaxed">
               Join us in Maletswai this June to explore the bankable projects shaping the future of the Joe Gqabi District.
             </p>
-            <button 
+            <button
               onClick={onRegister}
-              className="inline-flex items-center justify-center w-full px-6 py-5 rounded-xl bg-jogeda-green text-jogeda-dark font-display font-black uppercase tracking-widest text-center hover:scale-[1.02] transition-transform"
+              className="inline-flex items-center justify-center w-full px-6 py-5 rounded-md bg-[#102e5d] text-white font-display font-black uppercase tracking-widest text-center hover:bg-[#D4860A] transition-colors"
             >
               Secure Your Delegate Spot
             </button>
@@ -515,7 +515,7 @@ export const JoGedaTemplate: React.FC<TemplateProps> = ({ onRegister, onOpenAdmi
           <button
             type="button"
             onClick={onOpenAdmin}
-            className="inline-flex items-center justify-center text-xs font-bold uppercase tracking-widest text-zinc-600/80 hover:text-zinc-300 transition-colors"
+            className="inline-flex items-center justify-center text-xs font-bold uppercase tracking-widest text-[#9ca3af] hover:text-white transition-colors"
             aria-label="Organiser dashboard access"
           >
             Siya Phambili Asijiki
