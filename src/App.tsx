@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import KznRegistrationFlow from './components/kzn/KznRegistrationFlow';
-import KznAdminDashboard from './components/kzn/KznAdminDashboard';
+import KznAdminAuthGate from './components/kzn/KznAdminAuthGate';
 import KznLandingPage from './components/kzn/KznLandingPage';
 
 export default function App() {
-  const [showRegistration, setShowRegistration] = useState(false);
+  const [showRegistration, setShowRegistration] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get('register') === '1';
+  });
   const [showKznAdmin, setShowKznAdmin] = useState(false);
 
   if (showKznAdmin) {
-    return <KznAdminDashboard onBack={() => setShowKznAdmin(false)} />;
+    return <KznAdminAuthGate onBack={() => setShowKznAdmin(false)} />;
   }
 
   if (!showRegistration) {

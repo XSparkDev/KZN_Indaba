@@ -2,14 +2,11 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
-  Building2,
   CheckCircle2,
   Eye,
   EyeOff,
-  Mail,
-  Phone,
   ShieldCheck,
-  User,
+  Users,
 } from 'lucide-react';
 import { kznSupabase } from '../../lib/kznSupabase';
 
@@ -86,6 +83,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
   const [showPassword, setShowPassword] = useState(false);
   const [showCredentials, setShowCredentials] = useState(false);
   const [humanAnswer, setHumanAnswer] = useState('');
+  const [reference, setReference] = useState('');
 
   const [personal, setPersonal] = useState({
     firstName: '',
@@ -135,6 +133,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
 
   const totalScreens = 6;
   const canGoBack = !loading && screen > 1 && !success;
+  const stepLabels = ['Personal Info', 'Media & Consent', 'Get App', 'Business', 'Attendance', 'POPI'];
 
   const getScreenTitle = () => {
     if (screen === 1) return 'Personal Info';
@@ -331,6 +330,13 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
         return;
       }
 
+      const { data: refData } = await kznSupabase
+        .from('kzn_indaba_registrants')
+        .select('reference')
+        .eq('email', personal.email.trim())
+        .single();
+
+      setReference(refData?.reference || '');
       setSuccess(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error while saving registration.';
@@ -372,6 +378,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
     setLoading(false);
     setSuccess(false);
     setError(null);
+    setReference('');
     setXsUserId('');
     setShowPassword(false);
     setShowCredentials(false);
@@ -422,12 +429,20 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
   if (success) {
     return (
       <div className="min-h-screen bg-[#F5F0E8] flex items-center justify-center p-6 font-sans">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-2xl bg-[#102e5d] p-12 md:p-20 rounded-[2rem] shadow-2xl text-center text-white">
-          <div className="w-20 h-20 bg-[#D4860A] rounded-full flex items-center justify-center mx-auto mb-8 text-white">
-            <CheckCircle2 className="w-10 h-10" />
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-2xl bg-[#1b3461] p-12 md:p-16 rounded-2xl shadow-lg text-center text-white border border-white/10">
+          <div className="w-24 h-24 bg-[#16a34a] rounded-full flex items-center justify-center mx-auto mb-8 text-white">
+            <span className="text-5xl font-black leading-none">✓</span>
           </div>
-          <h2 className="text-4xl font-display font-black uppercase mb-4 text-white">Registration Complete</h2>
+          <h2 className="text-4xl font-display font-black uppercase mb-4 text-[#D4860A]">Registration Complete</h2>
           <p className="text-zinc-100 text-lg">Your KZN Liquor Indaba registration has been submitted successfully.</p>
+          <div className="mt-6 inline-flex flex-col items-center gap-2 rounded-xl border border-[#C98A1A] bg-[#C98A1A]/15 px-6 py-4">
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#f8d79a]">
+              Your reference number:
+            </p>
+            <p className="text-2xl font-display font-black tracking-wide text-white">
+              {reference || '—'}
+            </p>
+          </div>
           {onClose ? (
             <button
               type="button"
@@ -444,92 +459,110 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
 
   return (
     <div className="min-h-screen bg-[#F5F0E8] flex items-center justify-center p-6 font-sans">
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-4xl bg-white p-8 md:p-16 rounded-[1.25rem] shadow-2xl border border-[#d1d5db]">
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-[720px]">
+        <div className="mb-4 rounded-xl bg-[#102e5d] px-4 py-3 text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+            <p className="inline-flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-[#D4860A]" /> Hosted by KZNERA</p>
+            <p className="inline-flex items-center gap-2"><Users className="w-4 h-4 text-[#D4860A]" /> In Partnership with EDTEA</p>
+            <p className="inline-flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#D4860A]" /> Free to Attend</p>
+          </div>
+        </div>
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-[#d1d5db]">
         {onClose ? (
           <button
             type="button"
             onClick={handleClose}
-            className="mb-8 inline-flex items-center justify-center gap-2 text-sm font-bold text-[#102e5d] border border-[#102e5d] px-3 py-2 rounded-md hover:bg-[#102e5d] hover:text-white transition-colors uppercase tracking-widest"
+            className="mb-6 inline-flex items-center justify-center gap-2 text-sm font-semibold text-[#1b3461] border border-[#1b3461] px-3 py-2 rounded-md hover:bg-[#1b3461] hover:text-white transition-colors uppercase tracking-wide"
           >
-            <ArrowRight className="w-4 h-4 rotate-180" /> Back to landing
+            <span className="text-base leading-none">←</span> Back to landing
           </button>
         ) : null}
-        <div className="mb-10 rounded-xl overflow-hidden border border-[#102e5d]/10">
-          <div className="bg-[#102e5d] text-white px-6 py-4 flex items-center gap-3">
+        <div className="mb-8 rounded-xl overflow-hidden border border-[#1b3461]/10">
+          <div className="bg-[#1b3461] text-white px-6 py-4 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-[#D4860A]" />
             <p className="text-xs font-semibold tracking-wide">KZN Liquor Regulatory Indaba Registration</p>
           </div>
-          <div className="bg-[#173a70] px-6 py-5">
+          <div className="bg-[#1b3461] px-6 py-5">
             <p className="text-[#D4860A] font-display font-black uppercase text-sm tracking-[0.2em]">2026</p>
-            <h2 className="text-3xl font-display font-black uppercase text-white mt-2">{getScreenTitle()}</h2>
-            <p className="text-zinc-200 mt-1 text-sm font-medium">Complete all sections to confirm your delegate profile.</p>
+            <h2 className="text-3xl font-display font-black uppercase text-white mt-2">{getScreenTitle().toUpperCase()}</h2>
+            <p className="text-white/70 mt-1 text-sm font-medium">Complete all sections to confirm your delegate profile.</p>
           </div>
-          <div className="bg-white px-6 py-4">
-            <div className="flex items-center gap-4 mb-2">
-              <span className="bg-[#102e5d] text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-md">
-              Section {screen} of {totalScreens}
-            </span>
-            <div className="flex gap-2 flex-1">
-              {Array.from({ length: totalScreens }, (_, i) => i + 1).map((i) => (
-                <div key={i} className={`h-3 w-3 rounded-full ${i < screen ? 'bg-[#D4860A]' : i === screen ? 'bg-[#102e5d]' : 'bg-[#d1d5db]'}`} />
-              ))}
+          <div className="bg-white px-4 sm:px-6 py-5">
+            <div className="flex items-start justify-between">
+              {Array.from({ length: totalScreens }, (_, i) => i + 1).map((i) => {
+                const isCompleted = i < screen;
+                const isActive = i === screen;
+                const isPending = i > screen;
+                return (
+                  <div key={i} className="flex items-start flex-1 last:flex-none">
+                    <div className="flex flex-col items-center min-w-[58px]">
+                      <div
+                        className={`w-8 h-8 rounded-full border flex items-center justify-center text-sm font-black ${
+                          isCompleted
+                            ? 'bg-[#16a34a] border-[#16a34a] text-white'
+                            : isActive
+                              ? 'bg-[#1b3461] border-[#1b3461] text-white'
+                              : 'bg-[#f3f4f6] border-[#d1d5db] text-[#9ca3af]'
+                        }`}
+                      >
+                        {isCompleted ? '✓' : i}
+                      </div>
+                      <p
+                        className={`mt-2 text-[10px] uppercase tracking-[0.12em] text-center font-semibold ${
+                          isCompleted ? 'text-[#16a34a]' : isActive ? 'text-[#1b3461] font-bold' : 'text-[#9ca3af]'
+                        }`}
+                      >
+                        {stepLabels[i - 1]}
+                      </p>
+                    </div>
+                    {i < totalScreens ? (
+                      <div
+                        className={`mt-4 h-[2px] flex-1 ${i < screen ? 'bg-[#16a34a]' : 'bg-[#d1d5db]'}`}
+                      />
+                    ) : null}
+                  </div>
+                );
+              })}
             </div>
-          </div>
           </div>
         </div>
 
-        {error && <div className="mb-8 p-4 bg-red-50 border border-red-200 text-[#dc2626] rounded-xl text-sm font-bold">{error}</div>}
+        {error && <div className="mb-6 p-3 bg-red-50 border border-red-200 text-[#dc2626] rounded-xl text-sm font-medium">{error}</div>}
 
         <AnimatePresence mode="wait">
           {screen === 1 ? (
             <motion.div key="screen1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">First Name *</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                    <input className="w-full pl-12 pr-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.firstName} onChange={(e) => setPersonal({ ...personal, firstName: e.target.value })} />
-                  </div>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">First Name <span className="text-[#dc2626]">*</span></label>
+                  <input placeholder="e.g. Thabo" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.firstName} onChange={(e) => setPersonal({ ...personal, firstName: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Last Name *</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                    <input className="w-full pl-12 pr-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.lastName} onChange={(e) => setPersonal({ ...personal, lastName: e.target.value })} />
-                  </div>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Last Name <span className="text-[#dc2626]">*</span></label>
+                  <input placeholder="e.g. Nkosi" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.lastName} onChange={(e) => setPersonal({ ...personal, lastName: e.target.value })} />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Email Address *</label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                    <input type="email" className="w-full pl-12 pr-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.email} onChange={(e) => setPersonal({ ...personal, email: e.target.value })} />
-                  </div>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Email Address <span className="text-[#dc2626]">*</span></label>
+                  <input type="email" placeholder="e.g. thabo.nkosi@company.co.za" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.email} onChange={(e) => setPersonal({ ...personal, email: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Phone Number *</label>
-                  <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                    <input type="tel" className="w-full pl-12 pr-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.phoneNumber} onChange={(e) => setPersonal({ ...personal, phoneNumber: e.target.value })} />
-                  </div>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Phone Number <span className="text-[#dc2626]">*</span></label>
+                  <input type="tel" placeholder="e.g. +27 82 123 4567" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.phoneNumber} onChange={(e) => setPersonal({ ...personal, phoneNumber: e.target.value })} />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Organisation / Business Name *</label>
-                <div className="relative">
-                  <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                  <input className="w-full pl-12 pr-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.organisation} onChange={(e) => setPersonal({ ...personal, organisation: e.target.value })} />
-                </div>
+                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Organisation / Business Name <span className="text-[#dc2626]">*</span></label>
+                <input placeholder="e.g. Nkosi Taverns (Pty) Ltd" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.organisation} onChange={(e) => setPersonal({ ...personal, organisation: e.target.value })} />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Password *</label>
+                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Password <span className="text-[#dc2626]">*</span></label>
                 <div className="relative">
-                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#173a70]" />
-                  <input type={showPassword ? 'text' : 'password'} className="w-full pl-12 pr-12 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] text-[#1a1a1a] font-medium" value={personal.password} onChange={(e) => setPersonal({ ...personal, password: e.target.value })} />
+                  <input type={showPassword ? 'text' : 'password'} placeholder="Create a secure password" className="w-full px-4 pr-12 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 text-[#1a1a1a] font-medium" value={personal.password} onChange={(e) => setPersonal({ ...personal, password: e.target.value })} />
                   <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full text-[#6b7280] hover:text-[#102e5d] transition-colors">
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -548,10 +581,6 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
                   <p><span className="font-black text-jogeda-dark">Organisation:</span> <span className="text-zinc-600">{personal.organisation || '—'}</span></p>
                 </div>
               </div>
-              <div className="space-y-4 pt-4 border-t border-zinc-100">
-                <p className="text-xs text-[#1a1a1a] font-medium">I approve the use of this photo for my badge, lanyard and attendee directory.</p>
-                <p className="text-xs text-[#1a1a1a] font-medium">I consent to event photography and media use.</p>
-              </div>
             </motion.div>
           ) : null}
 
@@ -561,7 +590,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D4860A]">Optional but strongly recommended</p>
                 <p className="text-sm text-[#1a1a1a]">Install the XS Card app to manage your delegate profile, networking, meetings and event updates in real time.</p>
               </div>
-              <div className="space-y-6 rounded-2xl border border-[#173a70] bg-[#173a70] px-6 py-8">
+              <div className="relative space-y-6 rounded-2xl border border-[#173a70] bg-[#173a70] px-6 py-8">
                 <p className="text-sm text-white">Install the XS Card app to keep your delegate details handy, access your tickets and stay in sync with the programme.</p>
                 <div className="flex flex-wrap gap-3">
                   {googlePlayUrl ? (
@@ -575,6 +604,11 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
                     </a>
                   ) : null}
                 </div>
+                <img
+                  src="/xscard-logo.png"
+                  alt="XS Card"
+                  className="hidden md:block absolute right-6 top-1/2 -translate-y-1/2 w-[140px] h-auto object-contain pointer-events-none"
+                />
                 <div className="space-y-3">
                   <button type="button" onClick={() => setShowCredentials((prev) => !prev)} className="inline-flex items-center justify-center rounded-md border border-white/40 bg-white px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-[#102e5d] transition-colors">
                     Show credentials
@@ -595,23 +629,23 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
             <motion.div key="screen4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Nationality *</label>
-                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.nationality} onChange={(e) => setBusiness({ ...business, nationality: e.target.value as Nationality, saIdNumber: '', passportNumber: '' })}>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Nationality <span className="text-[#dc2626]">*</span></label>
+                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.nationality} onChange={(e) => setBusiness({ ...business, nationality: e.target.value as Nationality, saIdNumber: '', passportNumber: '' })}>
                     <option value="">Select nationality</option>
                     <option value="South African">South African</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">{business.nationality === 'Other' ? 'Passport Number *' : 'SA ID Number *'}</label>
-                  <input className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.nationality === 'Other' ? business.passportNumber : business.saIdNumber} onChange={(e) => business.nationality === 'Other' ? setBusiness({ ...business, passportNumber: e.target.value }) : setBusiness({ ...business, saIdNumber: e.target.value.replace(/\D/g, '').slice(0, 13) })} />
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">{business.nationality === 'Other' ? <>Passport Number <span className="text-[#dc2626]">*</span></> : <>SA ID Number <span className="text-[#dc2626]">*</span></>}</label>
+                  <input placeholder={business.nationality === 'Other' ? 'e.g. A12345678' : 'e.g. 9001015009087'} className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.nationality === 'Other' ? business.passportNumber : business.saIdNumber} onChange={(e) => business.nationality === 'Other' ? setBusiness({ ...business, passportNumber: e.target.value }) : setBusiness({ ...business, saIdNumber: e.target.value.replace(/\D/g, '').slice(0, 13) })} />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Preferred Communication Method *</label>
-                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.preferredCommunication} onChange={(e) => setBusiness({ ...business, preferredCommunication: e.target.value as PreferredCommunication })}>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Preferred Communication Method <span className="text-[#dc2626]">*</span></label>
+                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.preferredCommunication} onChange={(e) => setBusiness({ ...business, preferredCommunication: e.target.value as PreferredCommunication })}>
                     <option value="">Select method</option>
                     <option value="Email">Email</option>
                     <option value="SMS">SMS</option>
@@ -620,8 +654,8 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">District / Municipality *</label>
-                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.district} onChange={(e) => setBusiness({ ...business, district: e.target.value })}>
+                  <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">District / Municipality <span className="text-[#dc2626]">*</span></label>
+                  <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.district} onChange={(e) => setBusiness({ ...business, district: e.target.value })}>
                     <option value="">Select district</option>
                     {DISTRICT_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
                   </select>
@@ -629,8 +663,8 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Delegate Category *</label>
-                <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.delegateCategory} onChange={(e) => setBusiness({ ...business, delegateCategory: e.target.value })}>
+                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Delegate Category <span className="text-[#dc2626]">*</span></label>
+                <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.delegateCategory} onChange={(e) => setBusiness({ ...business, delegateCategory: e.target.value })}>
                   <option value="">Select category</option>
                   <optgroup label="Licensees">
                     <option>Tavern/Shebeen</option><option>Restaurant/On-Consumption</option><option>Bottle Store/Off-Consumption</option><option>Microbrewer/Craft Producer</option><option>Distributor/Wholesaler</option><option>Large Manufacturer</option>
@@ -645,10 +679,10 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <input placeholder="Liquor Licence Number (optional)" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.liquorLicenceNumber} onChange={(e) => setBusiness({ ...business, liquorLicenceNumber: e.target.value })} />
-                <input placeholder="Physical Address / Town (optional)" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.physicalAddress} onChange={(e) => setBusiness({ ...business, physicalAddress: e.target.value })} />
-                <input placeholder="Job Title / Role (optional)" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.jobTitle} onChange={(e) => setBusiness({ ...business, jobTitle: e.target.value })} />
-                <input placeholder="Alternative Contact Number (optional)" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={business.altContactNumber} onChange={(e) => setBusiness({ ...business, altContactNumber: e.target.value })} />
+                <div className="space-y-2"><label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Liquor Licence Number</label><input placeholder="e.g. KZN-2024-XXXXX" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.liquorLicenceNumber} onChange={(e) => setBusiness({ ...business, liquorLicenceNumber: e.target.value })} /></div>
+                <div className="space-y-2"><label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Physical Address / Town</label><input placeholder="e.g. 12 Main Street, Pinetown" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.physicalAddress} onChange={(e) => setBusiness({ ...business, physicalAddress: e.target.value })} /></div>
+                <div className="space-y-2"><label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Job Title / Role</label><input placeholder="e.g. Operations Manager" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.jobTitle} onChange={(e) => setBusiness({ ...business, jobTitle: e.target.value })} /></div>
+                <div className="space-y-2"><label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Alternative Contact Number</label><input placeholder="e.g. +27 31 000 0000" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={business.altContactNumber} onChange={(e) => setBusiness({ ...business, altContactNumber: e.target.value })} /></div>
               </div>
             </motion.div>
           ) : null}
@@ -692,7 +726,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Accessibility Needs (optional)</label>
-                <textarea rows={4} className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a] resize-none" value={attendance.accessibilityNeeds} onChange={(e) => setAttendance({ ...attendance, accessibilityNeeds: e.target.value })} />
+                <textarea rows={4} placeholder="e.g. Wheelchair access required" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a] resize-none" value={attendance.accessibilityNeeds} onChange={(e) => setAttendance({ ...attendance, accessibilityNeeds: e.target.value })} />
               </div>
             </motion.div>
           ) : null}
@@ -704,37 +738,38 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               <label className="flex items-start gap-3 text-sm font-medium"><input type="checkbox" checked={consent.accuracy} onChange={(e) => setConsent({ ...consent, accuracy: e.target.checked })} /> I confirm accuracy and authorisation *</label>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">How did you hear about the event? *</label>
-                <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={consent.hearAbout} onChange={(e) => setConsent({ ...consent, hearAbout: e.target.value })}>
+                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">How did you hear about the event? <span className="text-[#dc2626]">*</span></label>
+                <select className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={consent.hearAbout} onChange={(e) => setConsent({ ...consent, hearAbout: e.target.value })}>
                   <option value="">Select an option</option>
                   {HEAR_ABOUT_OPTIONS.map((option) => <option key={option}>{option}</option>)}
                 </select>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Topics / Issues (optional)</label>
-                <textarea rows={4} className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a] resize-none" value={consent.topics} onChange={(e) => setConsent({ ...consent, topics: e.target.value })} />
+                <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1b3461]">Topics / Issues (optional)</label>
+                <textarea rows={4} placeholder="e.g. Licensing reform, township trader support" className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a] resize-none" value={consent.topics} onChange={(e) => setConsent({ ...consent, topics: e.target.value })} />
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#102e5d]">Human verification: 19 + 10 = *</label>
-                <input className="w-full md:w-40 px-4 py-3 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#102e5d] font-medium text-[#1a1a1a]" value={humanAnswer} onChange={(e) => setHumanAnswer(e.target.value)} />
+                <input placeholder="29" className="w-full md:w-40 px-4 py-3 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]" value={humanAnswer} onChange={(e) => setHumanAnswer(e.target.value)} />
               </div>
             </motion.div>
           ) : null}
         </AnimatePresence>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-8">
-          <button type="button" disabled={!canGoBack} onClick={() => setScreen((prev) => Math.max(1, prev - 1))} className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-4 rounded-md border border-[#102e5d] text-xs font-black uppercase tracking-[0.2em] text-center text-[#102e5d] hover:bg-[#102e5d] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-            Previous Section
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-8">
+          <button type="button" disabled={!canGoBack} onClick={() => setScreen((prev) => Math.max(1, prev - 1))} className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-4 rounded-md border border-[#1b3461] text-xs font-semibold uppercase tracking-[0.18em] text-center text-[#1b3461] hover:bg-[#1b3461] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+            <span className="text-base leading-none mr-1">←</span> Back
           </button>
-          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:flex-1 px-4 sm:px-6 py-5 ${screen === 6 ? 'bg-[#D4860A] hover:bg-[#b87408]' : 'bg-[#102e5d] hover:bg-[#173a70]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap`}>
+          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:w-auto sm:ml-auto px-5 sm:px-8 py-4 ${screen === 6 ? 'bg-[#D4860A] hover:bg-[#b87408]' : 'bg-[#1b3461] hover:bg-[#102e5d]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap`}>
             {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>
               {screen < 6 ? (screen === 3 ? 'Complete Registration' : 'Continue') : 'Confirm Registration'}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span className="text-base leading-none">→</span>
             </>}
           </button>
         </div>
+      </motion.div>
       </motion.div>
     </div>
   );

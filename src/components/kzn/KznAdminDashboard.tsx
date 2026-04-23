@@ -4,6 +4,7 @@ import { kznSupabase } from '../../lib/kznSupabase';
 
 type KznRegistrant = {
   id: string;
+  reference: string | null;
   first_name: string;
   last_name: string;
   email: string;
@@ -61,7 +62,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
       const { data, error: fetchError } = await kznSupabase
         .from('kzn_indaba_registrants')
         .select(
-          'id, first_name, last_name, email, organisation, phone_number, delegate_category, district, day_one, day_two, gala_dinner, shuttle, accommodation, created_at, registration_complete',
+          'id, reference, first_name, last_name, email, organisation, phone_number, delegate_category, district, day_one, day_two, gala_dinner, shuttle, accommodation, created_at, registration_complete',
         )
         .order('created_at', { ascending: false });
 
@@ -99,6 +100,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
 
   const downloadCsv = () => {
     const headers = [
+      'Reference',
       'Name',
       'Email',
       'Organisation',
@@ -115,6 +117,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
     ];
 
     const rows = filteredRegistrants.map((r) => [
+      r.reference || '',
       `${r.first_name || ''} ${r.last_name || ''}`.trim(),
       r.email || '',
       r.organisation || '',
@@ -205,6 +208,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
           <table className="min-w-full text-left text-xs">
             <thead className="bg-[#102e5d] border-b border-[#173a70]">
               <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                <th className="px-4 py-3 min-w-[170px]">Reference</th>
                 <th className="px-4 py-3 min-w-[180px]">Name</th>
                 <th className="px-4 py-3 min-w-[220px]">Email</th>
                 <th className="px-4 py-3 min-w-[180px]">Organisation</th>
@@ -223,13 +227,13 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={13} className="px-4 py-8 text-center text-xs text-[#6b7280]">
+                  <td colSpan={14} className="px-4 py-8 text-center text-xs text-[#6b7280]">
                     Loading registrants...
                   </td>
                 </tr>
               ) : filteredRegistrants.length === 0 ? (
                 <tr>
-                  <td colSpan={13} className="px-4 py-8 text-center text-xs text-[#6b7280]">
+                  <td colSpan={14} className="px-4 py-8 text-center text-xs text-[#6b7280]">
                     No registrants found.
                   </td>
                 </tr>
@@ -239,6 +243,9 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
                     key={r.id}
                     className="border-b border-zinc-100 odd:bg-white even:bg-slate-50 hover:bg-[#F5F0E8] transition-colors"
                   >
+                    <td className="px-4 py-3 text-[11px] font-semibold text-[#102e5d] whitespace-nowrap">
+                      {r.reference || '—'}
+                    </td>
                     <td className="px-4 py-3 text-sm font-semibold text-[#102e5d] break-words">
                       {`${r.first_name || ''} ${r.last_name || ''}`.trim() || '-'}
                     </td>

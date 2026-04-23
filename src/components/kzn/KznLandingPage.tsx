@@ -156,10 +156,12 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
     return () => window.clearInterval(carousel);
   }, []);
 
-  const qrValue = useMemo(
-    () => 'https://www.kznera.org.za/iframe-embed_Version2.html',
-    [],
-  );
+  const qrValue = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}${window.location.pathname}?register=1`;
+    }
+    return 'https://www.kznera.org.za/iframe-embed_Version2.html?register=1';
+  }, []);
 
   const downloadQrCode = () => {
     const svg = document.getElementById('kzn-qr-svg');
@@ -196,7 +198,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
           <img
             src="/kznera-logo.png"
             alt="KZNERA"
-            className="mb-8 h-auto w-[340px] max-w-full object-contain object-left"
+            className="mb-8 h-auto w-[170px] max-w-full object-contain object-left"
           />
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#6b7280]">
             The Theme
@@ -247,6 +249,11 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
           >
             Register Now
           </button>
+          <p className="mt-4 max-w-xl text-sm text-[#1a1a1a] leading-relaxed">
+            The following attendance packages are subject to payment. The Indaba Pass costs R500,
+            the Gala Dinner Pass costs R600, and the Indaba Combo Pass costs R900. Members of the
+            Liquor Trader Association receive a discounted rate of R300 for the Gala Dinner.
+          </p>
         </div>
 
         <div className="relative min-h-[420px] lg:min-h-full overflow-hidden">
