@@ -576,9 +576,9 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               <div className="rounded-2xl border border-[#d1d5db] bg-[#F5F0E8] p-4 md:p-5">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#173a70] mb-3">Preview</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] w-full">
-                  <p><span className="font-black text-jogeda-dark">Name:</span> <span className="text-zinc-600">{`${personal.firstName} ${personal.lastName}`.trim() || '—'}</span></p>
-                  <p><span className="font-black text-jogeda-dark">Email:</span> <span className="text-zinc-600 break-all">{personal.email || '—'}</span></p>
-                  <p><span className="font-black text-jogeda-dark">Organisation:</span> <span className="text-zinc-600">{personal.organisation || '—'}</span></p>
+                  <p><span className="font-black text-[#1a1a1a]">Name:</span> <span className="text-zinc-600">{`${personal.firstName} ${personal.lastName}`.trim() || '—'}</span></p>
+                  <p><span className="font-black text-[#1a1a1a]">Email:</span> <span className="text-zinc-600 break-all">{personal.email || '—'}</span></p>
+                  <p><span className="font-black text-[#1a1a1a]">Organisation:</span> <span className="text-zinc-600">{personal.organisation || '—'}</span></p>
                 </div>
               </div>
             </motion.div>
