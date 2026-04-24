@@ -105,7 +105,7 @@ export default function KznAdminAuthGate({ onBack }: KznAdminAuthGateProps) {
             Back
           </button>
 
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4860A]">Admin Access</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#CC0000]">Admin Access</p>
           <h1 className="mt-2 text-2xl font-display font-black uppercase text-[#1b3461]">
             Sign in
           </h1>
@@ -171,7 +171,7 @@ export default function KznAdminAuthGate({ onBack }: KznAdminAuthGateProps) {
           <button
             type="button"
             onClick={() => setShowMemberRegistration(true)}
-            className="font-semibold text-[#D4860A] hover:text-[#f2b14f] transition-colors"
+            className="font-semibold text-[#CC0000] hover:text-[#ff4d4d] transition-colors"
           >
             Register a member
           </button>
@@ -179,7 +179,7 @@ export default function KznAdminAuthGate({ onBack }: KznAdminAuthGateProps) {
           <button
             type="button"
             onClick={() => void handleSignOut()}
-            className="font-semibold text-[#D4860A] hover:text-[#f2b14f] transition-colors"
+            className="font-semibold text-[#CC0000] hover:text-[#ff4d4d] transition-colors"
           >
             Sign out
           </button>

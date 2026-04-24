@@ -433,10 +433,10 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
           <div className="w-24 h-24 bg-[#16a34a] rounded-full flex items-center justify-center mx-auto mb-8 text-white">
             <span className="text-5xl font-black leading-none">✓</span>
           </div>
-          <h2 className="text-4xl font-display font-black uppercase mb-4 text-[#D4860A]">Registration Complete</h2>
+          <h2 className="text-4xl font-display font-black uppercase mb-4 text-[#CC0000]">Registration Complete</h2>
           <p className="text-zinc-100 text-lg">Your KZN Liquor Indaba registration has been submitted successfully.</p>
-          <div className="mt-6 inline-flex flex-col items-center gap-2 rounded-xl border border-[#C98A1A] bg-[#C98A1A]/15 px-6 py-4">
-            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#f8d79a]">
+          <div className="mt-6 inline-flex flex-col items-center gap-2 rounded-xl border border-[#CC0000] bg-[#CC0000]/15 px-6 py-4">
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#ffd6d6]">
               Your reference number:
             </p>
             <p className="text-2xl font-display font-black tracking-wide text-white">
@@ -447,7 +447,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
             <button
               type="button"
               onClick={handleClose}
-              className="mt-8 inline-flex items-center justify-center bg-[#D4860A] text-white px-6 py-3 rounded-md font-display font-black uppercase tracking-widest hover:bg-[#b87408] transition-all"
+              className="mt-8 inline-flex items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md font-display font-black uppercase tracking-widest hover:bg-[#990000] transition-all"
             >
               Return to Landing
             </button>
@@ -462,9 +462,9 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-[720px]">
         <div className="mb-4 rounded-xl bg-[#102e5d] px-4 py-3 text-white">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
-            <p className="inline-flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-[#D4860A]" /> Hosted by KZNERA</p>
-            <p className="inline-flex items-center gap-2"><Users className="w-4 h-4 text-[#D4860A]" /> In Partnership with EDTEA</p>
-            <p className="inline-flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#D4860A]" /> Free to Attend</p>
+            <p className="inline-flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-[#CC0000]" /> Hosted by KZNERA</p>
+            <p className="inline-flex items-center gap-2"><Users className="w-4 h-4 text-[#CC0000]" /> In Partnership with EDTEA</p>
+            <p className="inline-flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#CC0000]" /> Free to Attend</p>
           </div>
         </div>
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-[#d1d5db]">
@@ -479,11 +479,11 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
         ) : null}
         <div className="mb-8 rounded-xl overflow-hidden border border-[#1b3461]/10">
           <div className="bg-[#1b3461] text-white px-6 py-4 flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-[#D4860A]" />
+            <ShieldCheck className="w-5 h-5 text-[#CC0000]" />
             <p className="text-xs font-semibold tracking-wide">KZN Liquor Regulatory Indaba Registration</p>
           </div>
           <div className="bg-[#1b3461] px-6 py-5">
-            <p className="text-[#D4860A] font-display font-black uppercase text-sm tracking-[0.2em]">2026</p>
+            <p className="text-[#CC0000] font-display font-black uppercase text-sm tracking-[0.2em]">2026</p>
             <h2 className="text-3xl font-display font-black uppercase text-white mt-2">{getScreenTitle().toUpperCase()}</h2>
             <p className="text-white/70 mt-1 text-sm font-medium">Complete all sections to confirm your delegate profile.</p>
           </div>
@@ -587,14 +587,14 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
           {screen === 3 ? (
             <motion.div key="screen3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
               <div className="space-y-3">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D4860A]">Optional but strongly recommended</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#CC0000]">Optional but strongly recommended</p>
                 <p className="text-sm text-[#1a1a1a]">Install the XS Card app to manage your delegate profile, networking, meetings and event updates in real time.</p>
               </div>
               <div className="relative space-y-6 rounded-2xl border border-[#173a70] bg-[#173a70] px-6 py-8">
                 <p className="text-sm text-white">Install the XS Card app to keep your delegate details handy, access your tickets and stay in sync with the programme.</p>
                 <div className="flex flex-wrap gap-3">
                   {googlePlayUrl ? (
-                    <a href={googlePlayUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-md bg-[#D4860A] px-6 py-3 text-xs font-black uppercase tracking-[0.25em] text-white hover:bg-[#b87408] transition-colors">
+                    <a href={googlePlayUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-md bg-[#CC0000] px-6 py-3 text-xs font-black uppercase tracking-[0.25em] text-white hover:bg-[#990000] transition-colors">
                       Google Play
                     </a>
                   ) : null}
@@ -762,7 +762,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
           <button type="button" disabled={!canGoBack} onClick={() => setScreen((prev) => Math.max(1, prev - 1))} className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-4 rounded-md border border-[#1b3461] text-xs font-semibold uppercase tracking-[0.18em] text-center text-[#1b3461] hover:bg-[#1b3461] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
             <span className="text-base leading-none mr-1">←</span> Back
           </button>
-          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:w-auto sm:ml-auto px-5 sm:px-8 py-4 ${screen === 6 ? 'bg-[#D4860A] hover:bg-[#b87408]' : 'bg-[#1b3461] hover:bg-[#102e5d]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap`}>
+          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:w-auto sm:ml-auto px-5 sm:px-8 py-4 ${screen === 6 ? 'bg-[#CC0000] hover:bg-[#990000]' : 'bg-[#1b3461] hover:bg-[#102e5d]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap`}>
             {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>
               {screen < 6 ? (screen === 3 ? 'Complete Registration' : 'Continue') : 'Confirm Registration'}
               <span className="text-base leading-none">→</span>

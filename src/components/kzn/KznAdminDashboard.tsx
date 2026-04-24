@@ -161,7 +161,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
               <ArrowLeft className="w-4 h-4" />
               Back
             </button>
-            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#D4860A] mb-2">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#CC0000] mb-2">
               Internal Tool
             </p>
             <h1 className="text-3xl md:text-4xl font-display font-black uppercase text-[#102e5d]">
@@ -174,7 +174,7 @@ export default function KznAdminDashboard({ onBack }: KznAdminDashboardProps) {
           <button
             type="button"
             onClick={downloadCsv}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#D4860A] px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white hover:bg-[#b87408] transition-colors"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#CC0000] px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white hover:bg-[#990000] transition-colors"
           >
             <Download className="w-4 h-4" />
             Export CSV
