@@ -16,33 +16,6 @@ type KznLandingPageProps = {
 const HERO_IMAGES = ['/herro1.png', '/herro2.png', '/herro3.png'];
 const TARGET_DATE = new Date('2026-05-08T00:00:00+02:00');
 
-const LEADERS = [
-  {
-    image: '/musa_zondi.png',
-    name: 'Rev. Musa Zondi',
-    role: 'MEC: Economic Development, Tourism & Environmental Affairs',
-    quote:
-      "KZNERA will regulate and empower our province's gambling and liquor industries...",
-    border: 'border-[#1b3461]',
-  },
-  {
-    image: '/mbali_myeni.png',
-    name: 'Ms Mbali Myeni',
-    role: 'Board Chairperson, KZNERA',
-    quote:
-      'Our industry contributes enormously to the provincial economy...',
-    border: 'border-[#CC0000]',
-  },
-  {
-    image: '/portia_baloyi.png',
-    name: 'Ms Portia Baloyi',
-    role: 'Interim Chief Executive Officer, KZNERA',
-    quote:
-      'The KZN Liquor Regulatory Indaba marks a significant milestone...',
-    border: 'border-[#1b3461]',
-  },
-];
-
 const AGENDA_CARDS = [
   {
     icon: FileText,
@@ -110,19 +83,6 @@ const AGENDA_CARDS = [
     ],
     highlight: false,
   },
-];
-
-const PARTNERS = [
-  '/images/partners/kznedtea.png',
-  '/images/partners/saps.svg',
-  '/images/partners/dept-health-kzn.png',
-  '/images/partners/dept-transport-kzn.png',
-  '/images/partners/dalrrd.png',
-  '/images/partners/kzn-treasury.png',
-  '/images/partners/basa.png',
-  '/images/partners/salba.png',
-  '/images/partners/heineken.png',
-  '/images/partners/kzntafa.png',
 ];
 
 const getTimeParts = () => {
@@ -198,6 +158,51 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
 
   return (
     <div className="min-h-screen bg-[#f7f7f5] text-[#1a1a1a] font-sans">
+      <div id="poster-section" className="w-full py-[60px]">
+        <h3
+          style={{
+            fontFamily: 'inherit',
+            fontSize: '28px',
+            fontWeight: 700,
+            color: '#1a2744',
+            textAlign: 'center',
+            margin: '0 0 16px 0',
+            letterSpacing: '0.5px',
+          }}
+        >
+          Welcome Poster
+        </h3>
+        <div
+          id="poster-strip"
+          className="w-full flex justify-center"
+          style={{
+            margin: 0,
+            padding: 0,
+            background: '#FFFFFF',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+          }}
+        >
+          <div className="relative w-full max-w-[800px]">
+            <img
+              src="/poster2.png"
+              alt="KZN Indaba poster"
+              className="block w-full h-auto"
+              style={{
+                margin: 0,
+                padding: 0,
+                border: 'none',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 h-full w-6"
+              style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)' }}
+            />
+          </div>
+        </div>
+      </div>
+
       <section className="grid grid-cols-1 lg:grid-cols-[56%_44%] min-h-[90vh]">
         <div className="bg-white px-6 sm:px-10 lg:px-14 py-10 flex flex-col justify-center">
           <img
@@ -215,11 +220,9 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
           </div>
 
           <h1 className="mt-8 font-display font-black uppercase leading-[0.9] text-4xl sm:text-6xl lg:text-7xl text-[#1b3461]">
-            Liquor
+            KZN
             <br />
-            Regulatory
-            <br />
-            <span className="text-[#CC0000]">Indaba 2026</span>
+            Liquor Indaba
           </h1>
 
           <div className="w-20 h-1.5 bg-[#CC0000] mt-8" />
@@ -377,31 +380,6 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       </section>
 
-      <section className="bg-[#f7f7f5] py-20">
-        <div className="max-w-7xl mx-auto px-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000] text-center">
-            Leadership
-          </p>
-          <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase text-center">
-            Welcome Messages
-          </h2>
-          <div className="mt-12 grid md:grid-cols-3 gap-8">
-            {LEADERS.map((leader) => (
-              <article key={leader.name} className="bg-white rounded-2xl shadow-md border border-zinc-200 p-7 text-center">
-                <img
-                  src={leader.image}
-                  alt={leader.name}
-                  className={`h-24 w-24 rounded-full object-cover object-top border-4 ${leader.border} mx-auto`}
-                />
-                <h3 className="mt-5 font-display font-black text-xl text-[#1b3461]">{leader.name}</h3>
-                <p className="mt-2 text-sm text-[#6b7280]">{leader.role}</p>
-                <p className="mt-4 text-sm text-[#1a1a1a] italic">"{leader.quote}"</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-[#1b3461] py-20">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000]">
@@ -471,72 +449,6 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             >
               Open Registration Form
             </button>
-          </div>
-        </div>
-      </section>
-
-      <div id="poster-section" className="w-full py-[60px]">
-        <h3
-          style={{
-            fontFamily: 'inherit',
-            fontSize: '28px',
-            fontWeight: 700,
-            color: '#1a2744',
-            textAlign: 'center',
-            margin: '0 0 16px 0',
-            letterSpacing: '0.5px',
-          }}
-        >
-          Welcome Poster
-        </h3>
-        <div
-          id="poster-strip"
-          className="w-full flex justify-center"
-          style={{
-            margin: 0,
-            padding: 0,
-            background: '#FFFFFF',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-          }}
-        >
-          <div className="relative w-full max-w-[800px]">
-            <img
-              src="/poster2.png"
-              alt="KZN Indaba poster"
-              className="block w-full h-auto"
-              style={{
-                margin: 0,
-                padding: 0,
-                border: 'none',
-                objectFit: 'contain',
-              }}
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 h-full w-6"
-              style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)' }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <section className="bg-[#f7f7f5] py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000] text-center">
-            Collaborators
-          </p>
-          <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase text-center">
-            Our Partners
-          </h2>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
-            {PARTNERS.map((logo) => (
-              <div
-                key={logo}
-                className="bg-white rounded-xl border border-zinc-200 shadow-sm hover:-translate-y-0.5 transition-transform p-5 flex items-center justify-center"
-              >
-                <img src={logo} alt="Partner logo" className="max-h-12 w-full object-contain" />
-              </div>
-            ))}
           </div>
         </div>
       </section>
