@@ -13,7 +13,7 @@ type KznLandingPageProps = {
   onRegisterClick: () => void;
 };
 
-const HERO_IMAGES = ['/bartender-bg.jpg', '/hero-bg.jpg', '/third.png'];
+const HERO_IMAGES = ['/herro1.png', '/herro2.png', '/herro3.png'];
 const TARGET_DATE = new Date('2026-05-08T00:00:00+02:00');
 
 const LEADERS = [
@@ -31,7 +31,7 @@ const LEADERS = [
     role: 'Board Chairperson, KZNERA',
     quote:
       'Our industry contributes enormously to the provincial economy...',
-    border: 'border-[#D4860A]',
+    border: 'border-[#CC0000]',
   },
   {
     image: '/portia_baloyi.png',
@@ -103,7 +103,7 @@ const AGENDA_CARDS = [
     icon: Users,
     title: 'Stakeholder Engagement',
     points: [
-      'Liquor Indaba 2026 — Durban ICC',
+          'Liquor Indaba 2026 — Sibaya Casino, eThekwini',
       'Industry deal-making & regulatory dialogue',
       'Traditional leadership & community forums',
       'Inter-governmental compliance partnerships',
@@ -141,6 +141,8 @@ const pad = (value: number) => String(value).padStart(2, '0');
 export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps) {
   const [activeImage, setActiveImage] = useState(0);
   const [timeLeft, setTimeLeft] = useState(getTimeParts);
+  const [showProgrammePreview, setShowProgrammePreview] = useState(false);
+  const [programmePreviewFailed, setProgrammePreviewFailed] = useState(false);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -162,6 +164,9 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
     }
     return 'https://www.kznera.org.za/iframe-embed_Version2.html?register=1';
   }, []);
+
+  const programmeFilePath = '/KZN_Liquor_Indaba_Programme.pdf';
+  const programmeFileHref = encodeURI(programmeFilePath);
 
   const downloadQrCode = () => {
     const svg = document.getElementById('kzn-qr-svg');
@@ -205,7 +210,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
           </p>
           <div className="mt-3 bg-[#1b3461] text-white px-5 py-4 rounded-md">
             <p className="text-sm font-bold uppercase tracking-wide">
-              Regulating for Responsible Trade: Building a Safer KZN Together
+              Repositioning the Liquor Sector for Innovative Regulation. Responsibility in Practice and Inclusive Growth.
             </p>
           </div>
 
@@ -214,14 +219,14 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             <br />
             Regulatory
             <br />
-            <span className="text-[#D4860A]">Indaba 2026</span>
+            <span className="text-[#CC0000]">Indaba 2026</span>
           </h1>
 
-          <div className="w-20 h-1.5 bg-[#D4860A] mt-8" />
+          <div className="w-20 h-1.5 bg-[#CC0000] mt-8" />
 
           <div className="mt-6 text-sm text-[#6b7280] space-y-1">
             <p>8th &amp; 9th May 2026</p>
-            <p>Durban ICC, KwaZulu-Natal</p>
+            <p>Sibaya Casino, eThekwini</p>
           </div>
 
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -235,25 +240,33 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
                 <p className="font-display font-black text-2xl text-[#1b3461]">
                   {pad(item.value)}
                 </p>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#D4860A]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#CC0000]">
                   {item.label}
                 </p>
               </div>
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={onRegisterClick}
-            className="mt-8 inline-flex items-center justify-center bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#1b3461] transition-colors w-fit"
-          >
-            Register Now
-          </button>
-          <p className="mt-4 max-w-xl text-sm text-[#1a1a1a] leading-relaxed">
-            The following attendance packages are subject to payment. The Indaba Pass costs R500,
-            the Gala Dinner Pass costs R600, and the Indaba Combo Pass costs R900. Members of the
-            Liquor Trader Association receive a discounted rate of R300 for the Gala Dinner.
-          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={onRegisterClick}
+              className="inline-flex items-center justify-center bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#1b3461] transition-colors w-fit"
+            >
+              Register Now
+            </button>
+            <a
+              href={programmeFileHref}
+              onClick={(e) => {
+                e.preventDefault();
+                setProgrammePreviewFailed(false);
+                setShowProgrammePreview(true);
+              }}
+              className="inline-flex items-center justify-center bg-[#1b3461] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#102e5d] transition-colors w-fit"
+            >
+              Programme
+            </a>
+          </div>
         </div>
 
         <div className="relative min-h-[420px] lg:min-h-full overflow-hidden">
@@ -270,10 +283,70 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       </section>
 
+      {showProgrammePreview ? (
+        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-4xl rounded-2xl border border-[#1b3461]/20 bg-white shadow-2xl overflow-hidden">
+            <div className="bg-[#1b3461] px-5 py-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#CC0000]">
+                  Programme Preview
+                </p>
+                <h3 className="text-lg font-display font-black uppercase text-white">
+                  KZN Liquor Indaba Programme Information
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowProgrammePreview(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/30 text-white hover:bg-white/10 transition-colors"
+                aria-label="Close programme preview"
+              >
+                ×
+              </button>
+            </div>
+            <div className="bg-[#f7f7f5] p-4 md:p-6">
+              {programmePreviewFailed ? (
+                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm p-6 text-center">
+                  <p className="text-sm font-semibold text-[#1b3461]">
+                    Preview unavailable - please download the programme.
+                  </p>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm">
+                  <iframe
+                    src="/KZN_Liquor_Indaba_Programme.pdf"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 'none', minHeight: '500px' }}
+                    title="KZN Liquor Indaba Programme"
+                    onError={() => setProgrammePreviewFailed(true)}
+                  />
+                </div>
+              )}
+              <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
+                <a
+                  href={programmeFileHref}
+                  download="KZN_Liquor_Indaba_Programme.pdf"
+                  className="inline-flex items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors"
+                >
+                  Download Programme
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <p className="max-w-7xl mx-auto px-6 mt-4 text-sm text-[#1a1a1a] leading-relaxed">
+        The following attendance packages are subject to payment. The Indaba Pass costs R500, the
+        Gala Dinner Pass costs R600, and the Indaba Combo Pass costs R900. Members of the Liquor
+        Trader Association receive a discounted rate of R300 for the Gala Dinner.
+      </p>
+
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#D4860A]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000]">
               Background &amp; Rationale
             </p>
             <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase leading-tight">
@@ -306,7 +379,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
 
       <section className="bg-[#f7f7f5] py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#D4860A] text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000] text-center">
             Leadership
           </p>
           <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase text-center">
@@ -331,7 +404,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
 
       <section className="bg-[#1b3461] py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#D4860A]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000]">
             Focus Areas
           </p>
           <h2 className="mt-3 font-display font-black text-4xl md:text-6xl text-white uppercase leading-none">
@@ -344,10 +417,10 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
                 <article
                   key={card.title}
                   className={`bg-[#0e1f3d] text-white rounded-2xl border border-white/20 p-6 ${
-                    card.highlight ? 'border-l-4 border-l-[#D4860A]' : ''
+                    card.highlight ? 'border-l-4 border-l-[#CC0000]' : ''
                   }`}
                 >
-                  <Icon className="w-7 h-7 text-[#D4860A]" />
+                  <Icon className="w-7 h-7 text-[#CC0000]" />
                   <h3 className="mt-4 font-display font-bold uppercase text-lg">{card.title}</h3>
                   <ul className="mt-4 space-y-2 text-sm text-zinc-100">
                     {card.points.map((point) => (
@@ -363,7 +436,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
 
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#D4860A]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000]">
             Scan To Register
           </p>
           <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase">
@@ -394,7 +467,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             <button
               type="button"
               onClick={onRegisterClick}
-              className="inline-flex items-center justify-center bg-[#D4860A] text-white px-8 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#b87408] transition-colors"
+              className="inline-flex items-center justify-center bg-[#CC0000] text-white px-8 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors"
             >
               Open Registration Form
             </button>
@@ -402,9 +475,47 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       </section>
 
+      <div id="poster-section" className="w-full py-[60px]">
+        <h3
+          style={{
+            fontFamily: 'inherit',
+            fontSize: '28px',
+            fontWeight: 700,
+            color: '#1a2744',
+            textAlign: 'center',
+            margin: '0 0 16px 0',
+            letterSpacing: '0.5px',
+          }}
+        >
+          Welcome Poster
+        </h3>
+        <div
+          id="poster-strip"
+          className="w-full flex justify-center"
+          style={{
+            margin: 0,
+            padding: 0,
+            background: '#FFFFFF',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+          }}
+        >
+          <img
+            src="/poster2.png"
+            alt="KZN Indaba poster"
+            className="block w-full max-w-[800px] h-auto"
+            style={{
+              margin: 0,
+              padding: 0,
+              border: 'none',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      </div>
+
       <section className="bg-[#f7f7f5] py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#D4860A] text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CC0000] text-center">
             Collaborators
           </p>
           <h2 className="mt-3 font-display font-black text-4xl md:text-5xl text-[#1b3461] uppercase text-center">
@@ -454,7 +565,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             <button
               type="button"
               onClick={onRegisterClick}
-              className="mt-8 inline-flex items-center justify-center bg-[#D4860A] text-white px-8 py-4 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#b87408] transition-colors"
+              className="mt-8 inline-flex items-center justify-center bg-[#CC0000] text-white px-8 py-4 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors"
             >
               Secure Your Delegate Spot
             </button>
