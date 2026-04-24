@@ -499,17 +499,24 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
           }}
         >
-          <img
-            src="/poster2.png"
-            alt="KZN Indaba poster"
-            className="block w-full max-w-[800px] h-auto"
-            style={{
-              margin: 0,
-              padding: 0,
-              border: 'none',
-              objectFit: 'contain',
-            }}
-          />
+          <div className="relative w-full max-w-[800px]">
+            <img
+              src="/poster2.png"
+              alt="KZN Indaba poster"
+              className="block w-full h-auto"
+              style={{
+                margin: 0,
+                padding: 0,
+                border: 'none',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 h-full w-6"
+              style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)' }}
+            />
+          </div>
         </div>
       </div>
 
