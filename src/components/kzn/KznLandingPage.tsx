@@ -158,20 +158,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
 
   return (
     <div className="min-h-screen bg-[#f7f7f5] text-[#1a1a1a] font-sans">
-      <div id="poster-section" className="w-full py-[60px]">
-        <h3
-          style={{
-            fontFamily: 'inherit',
-            fontSize: '28px',
-            fontWeight: 700,
-            color: '#1a2744',
-            textAlign: 'center',
-            margin: '0 0 16px 0',
-            letterSpacing: '0.5px',
-          }}
-        >
-          Welcome Poster
-        </h3>
+      <div id="poster-section" className="w-full pt-0 pb-[60px]">
         <div
           id="poster-strip"
           className="w-full flex justify-center"
