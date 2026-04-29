@@ -170,14 +170,6 @@ export default function KznAdminAuthGate({ onBack }: KznAdminAuthGateProps) {
           <span className="text-white/50">·</span>
           <button
             type="button"
-            onClick={() => setShowMemberRegistration(true)}
-            className="font-semibold text-[#CC0000] hover:text-[#ff4d4d] transition-colors"
-          >
-            Register a member
-          </button>
-          <span className="text-white/50">·</span>
-          <button
-            type="button"
             onClick={() => void handleSignOut()}
             className="font-semibold text-[#CC0000] hover:text-[#ff4d4d] transition-colors"
           >
@@ -185,7 +177,10 @@ export default function KznAdminAuthGate({ onBack }: KznAdminAuthGateProps) {
           </button>
         </div>
       </div>
-      <KznAdminDashboard onBack={onBack} />
+      <KznAdminDashboard
+        onBack={onBack}
+        onRegisterMember={() => setShowMemberRegistration(true)}
+      />
     </div>
   );
 }
