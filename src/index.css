@@ -52,3 +52,25 @@
   background-color: var(--color-jogeda-green);
   color: var(--color-jogeda-dark);
 }
+
+@keyframes scrollHintArrowX {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.scroll-hint-arrow {
+  animation: scrollHintArrowX 1s ease-in-out infinite;
+}

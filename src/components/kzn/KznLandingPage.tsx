@@ -445,12 +445,12 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
           <div>
             <h3 className="font-display font-black text-3xl uppercase">Contact Us</h3>
             <div className="mt-6 space-y-2 text-sm text-zinc-200 leading-relaxed">
-              <p>Phone (Durban): +27 31 583 1800</p>
+              <p>Phone (Durban): 031 302 0600</p>
               <p>Phone (PMB): +27 33 345 2714</p>
               <p>Email: info@kznera.org.za</p>
               <p>Website: https://www.kznera.org.za</p>
               <p>
-                Durban Office: 18th Floor, Marine Building, 22 Dorothy Nyembe Street, Durban,
+                Durban Office: 1st Floor, Marine Building, 22 Dorothy Nyembe Street, Durban,
                 4001
               </p>
               <p>
