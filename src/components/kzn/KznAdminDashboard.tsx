@@ -700,7 +700,7 @@ export default function KznAdminDashboard({ onBack, onRegisterMember }: KznAdmin
   };
 
   return (
-    <div className="min-h-screen bg-[#102e5d] flex items-start justify-center p-4 sm:p-6 md:p-10 font-sans">
+    <div className="min-h-screen bg-[#102e5d] flex items-start justify-center px-3 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-6 md:p-10 font-sans">
       <div className="w-full max-w-[96rem] bg-white rounded-[1.5rem] shadow-2xl border border-[#173a70] p-4 sm:p-6 md:p-10">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
           <div>
