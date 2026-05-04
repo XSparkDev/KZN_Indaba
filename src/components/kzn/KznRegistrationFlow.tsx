@@ -128,6 +128,8 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
   const [showCredentials, setShowCredentials] = useState(false);
   const [humanAnswer, setHumanAnswer] = useState('');
   const [reference, setReference] = useState('');
+  const [showRegistrationGuide, setShowRegistrationGuide] = useState(false);
+  const [registrationGuideFailed, setRegistrationGuideFailed] = useState(false);
 
   const [personal, setPersonal] = useState({
     firstName: '',
@@ -178,6 +180,8 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
   const appleAppUrl = ((import.meta as any).env?.VITE_APPLE_APP_URL || '').trim();
   const proofOfBankingPath = '/00_ABSA_Bank Confirmation_4079562528_220426.pdf';
   const proofOfBankingHref = encodeURI(proofOfBankingPath);
+  const registrationGuidePath = '/Registration Guide.pdf';
+  const registrationGuideHref = encodeURI(registrationGuidePath);
 
   const totalScreens = 6;
   const canGoBack = !loading && screen > 1 && !success;
@@ -564,6 +568,8 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
     setShowPassword(false);
     setShowCredentials(false);
     setHumanAnswer('');
+    setShowRegistrationGuide(false);
+    setRegistrationGuideFailed(false);
     setPersonal({
       firstName: '',
       lastName: '',
@@ -643,7 +649,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
               Download Proof of Banking
             </a>
             <p className="mt-3 text-sm text-zinc-100 break-words">
-              Send proof of payment to enquiries@kznera.org.za.
+              Send proof of payment to liquorindaba@kznera.org.za.
             </p>
           </div>
           <div className="mt-6 rounded-xl border border-white/15 bg-white/10 px-4 py-5 sm:px-5 text-left max-w-2xl mx-auto">
@@ -802,7 +808,7 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
                   Do you already have an XS Card account? <span className="text-[#dc2626]">*</span>
                 </label>
                 <select
-                  className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a]"
+                  className="w-full px-4 py-4 bg-white border border-[#d1d5db] rounded-lg outline-none focus:border-[#1b3461] focus:ring-2 focus:ring-[#1b3461]/15 font-medium text-[#1a1a1a] !text-lg sm:!text-xl leading-snug"
                   value={xsMembership}
                   onChange={(e) => setXsMembership(e.target.value as 'yes' | 'no')}
                 >
@@ -1138,11 +1144,21 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
           ) : null}
         </AnimatePresence>
 
-        <div className="flex flex-col sm:flex-row sm:items-stretch gap-3 pt-6 sm:pt-8">
-          <button type="button" disabled={!canGoBack} onClick={goBack} className="w-full sm:w-auto inline-flex min-h-[48px] items-center justify-center px-4 sm:px-6 py-3.5 rounded-md border border-[#1b3461] text-xs font-semibold uppercase tracking-[0.18em] text-center text-[#1b3461] hover:bg-[#1b3461] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation order-2 sm:order-1">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch gap-3 pt-6 sm:pt-8">
+          <button type="button" disabled={!canGoBack} onClick={goBack} className="w-full sm:w-auto inline-flex min-h-[48px] items-center justify-center px-4 sm:px-6 py-3.5 rounded-md border border-[#1b3461] text-xs font-semibold uppercase tracking-[0.18em] text-center text-[#1b3461] hover:bg-[#1b3461] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation">
             <span className="text-base leading-none mr-1">←</span> Back
           </button>
-          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:w-auto sm:ml-auto order-1 sm:order-2 min-h-[48px] px-5 sm:px-8 py-3.5 ${screen === 6 ? 'bg-[#CC0000] hover:bg-[#990000]' : 'bg-[#1b3461] hover:bg-[#102e5d]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed text-center sm:whitespace-nowrap touch-manipulation`}>
+          <button
+            type="button"
+            onClick={() => {
+              setRegistrationGuideFailed(false);
+              setShowRegistrationGuide(true);
+            }}
+            className="w-full sm:w-auto inline-flex min-h-[48px] items-center justify-center px-4 sm:px-6 py-3.5 rounded-md border border-[#1b3461] bg-white text-xs font-semibold uppercase tracking-[0.18em] text-[#1b3461] hover:bg-[#1b3461]/5 transition-colors touch-manipulation"
+          >
+            Guide
+          </button>
+          <button type="button" disabled={loading} onClick={() => void handleContinue()} className={`w-full sm:w-auto sm:ml-auto min-h-[48px] px-5 sm:px-8 py-3.5 ${screen === 6 ? 'bg-[#CC0000] hover:bg-[#990000]' : 'bg-[#1b3461] hover:bg-[#102e5d]'} text-white rounded-md font-display font-black uppercase tracking-[0.15em] flex items-center justify-center gap-2 transition-all group disabled:opacity-50 disabled:cursor-not-allowed text-center sm:whitespace-nowrap touch-manipulation`}>
             {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>
               <span className="text-center leading-tight">{screen < 6 ? (screen === 3 ? 'Complete Registration' : 'Continue') : 'Confirm Registration'}</span>
               <span className="text-base leading-none shrink-0">→</span>
@@ -1151,6 +1167,57 @@ export default function KznRegistrationFlow({ onClose }: KznRegistrationFlowProp
         </div>
       </motion.div>
       </motion.div>
+
+      {showRegistrationGuide ? (
+        <div className="fixed inset-0 z-[70] bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+          <div className="w-full max-w-4xl max-h-[100dvh] sm:max-h-[92dvh] rounded-t-2xl sm:rounded-2xl border border-[#1b3461]/20 bg-white shadow-2xl overflow-hidden flex flex-col">
+            <div className="bg-[#1b3461] px-4 sm:px-5 py-3 sm:py-4 flex items-start sm:items-center justify-between gap-3 shrink-0">
+              <div className="min-w-0 pr-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#CC0000]">Registration Guide</p>
+                <h3 className="text-base sm:text-lg font-display font-black uppercase text-white leading-tight break-words mt-1">
+                  Delegate registration guide
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRegistrationGuide(false)}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/30 text-xl text-white hover:bg-white/10 transition-colors touch-manipulation"
+                aria-label="Close registration guide"
+              >
+                ×
+              </button>
+            </div>
+            <div className="bg-[#f7f7f5] p-3 sm:p-6 overflow-y-auto flex flex-col flex-1 min-h-0">
+              {registrationGuideFailed ? (
+                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm p-6 text-center">
+                  <p className="text-sm font-semibold text-[#1b3461]">Preview unavailable — please download the guide.</p>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm flex-1 min-h-[45vh] sm:min-h-[320px]">
+                  <iframe
+                    src={registrationGuideHref}
+                    width="100%"
+                    height="100%"
+                    className="min-h-[45vh] sm:min-h-[500px] w-full"
+                    style={{ border: 'none' }}
+                    title="KZN Liquor Indaba Registration Guide"
+                    onError={() => setRegistrationGuideFailed(true)}
+                  />
+                </div>
+              )}
+              <div className="mt-4 flex flex-col-reverse sm:flex-row flex-wrap items-stretch sm:items-center justify-end gap-3 shrink-0">
+                <a
+                  href={registrationGuideHref}
+                  download="Registration Guide.pdf"
+                  className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors touch-manipulation text-center"
+                >
+                  Download Guide
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
