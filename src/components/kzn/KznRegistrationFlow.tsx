@@ -63,7 +63,7 @@ const INDABA_FEE_PACKAGES = [
   'Indaba Pass – R500',
   'Gala Dinner Pass – R600',
   'Indaba Combo Pass – R900',
-  'Gala Dinner (Liquor Trader Association Members) – R300 (discounted)',
+  'Members of the Liquor Trader Association will get complementary access to the Indaba and receive a discounted rate of R300 for the Gala Dinner through the relevant Association.',
 ] as const;
 
 function RegistrationFeeFilmTicker() {
