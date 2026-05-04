@@ -98,11 +98,45 @@ const getTimeParts = () => {
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
+type PdfPreviewId = 'programme' | 'accommodation';
+
+const PDF_PREVIEW_CONFIG: Record<
+  PdfPreviewId,
+  {
+    path: string;
+    downloadFilename: string;
+    eyebrow: string;
+    title: string;
+    iframeTitle: string;
+    failMessage: string;
+    downloadLabel: string;
+  }
+> = {
+  programme: {
+    path: '/KZN_Liquor_Indaba_Programme.pdf',
+    downloadFilename: 'KZN_Liquor_Indaba_Programme.pdf',
+    eyebrow: 'Programme Preview',
+    title: 'KZN Liquor Indaba Programme Information',
+    iframeTitle: 'KZN Liquor Indaba Programme',
+    failMessage: 'Preview unavailable - please download the programme.',
+    downloadLabel: 'Download Programme',
+  },
+  accommodation: {
+    path: '/KZN_Liquor_Indaba_Business_Expo_Accommodation_Guide.pdf',
+    downloadFilename: 'KZN_Liquor_Indaba_Business_Expo_Accommodation_Guide.pdf',
+    eyebrow: 'Accommodation Guide',
+    title: 'Business Expo & Accommodation Guide',
+    iframeTitle: 'KZN Liquor Indaba Business Expo Accommodation Guide',
+    failMessage: 'Preview unavailable - please download the accommodation guide.',
+    downloadLabel: 'Download Guide',
+  },
+};
+
 export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps) {
   const [activeImage, setActiveImage] = useState(0);
   const [timeLeft, setTimeLeft] = useState(getTimeParts);
-  const [showProgrammePreview, setShowProgrammePreview] = useState(false);
-  const [programmePreviewFailed, setProgrammePreviewFailed] = useState(false);
+  const [pdfPreview, setPdfPreview] = useState<PdfPreviewId | null>(null);
+  const [pdfPreviewFailed, setPdfPreviewFailed] = useState(false);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -125,8 +159,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
     return 'https://www.kznera.org.za/iframe-embed_Version2.html?register=1';
   }, []);
 
-  const programmeFilePath = '/KZN_Liquor_Indaba_Programme.pdf';
-  const programmeFileHref = encodeURI(programmeFilePath);
+  const programmeFileHref = encodeURI(PDF_PREVIEW_CONFIG.programme.path);
 
   const downloadQrCode = () => {
     const svg = document.getElementById('kzn-qr-svg');
@@ -249,12 +282,23 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
               href={programmeFileHref}
               onClick={(e) => {
                 e.preventDefault();
-                setProgrammePreviewFailed(false);
-                setShowProgrammePreview(true);
+                setPdfPreviewFailed(false);
+                setPdfPreview('programme');
               }}
               className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#1b3461] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#102e5d] transition-colors touch-manipulation text-center"
             >
               Programme
+            </a>
+            <a
+              href={encodeURI(PDF_PREVIEW_CONFIG.accommodation.path)}
+              onClick={(e) => {
+                e.preventDefault();
+                setPdfPreviewFailed(false);
+                setPdfPreview('accommodation');
+              }}
+              className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#1b3461] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#102e5d] transition-colors touch-manipulation text-center"
+            >
+              Accommodation
             </a>
           </div>
         </div>
@@ -273,54 +317,55 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       </section>
 
-      {showProgrammePreview ? (
+      {pdfPreview ? (
         <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
           <div className="w-full max-w-4xl max-h-[100dvh] sm:max-h-[92dvh] rounded-t-2xl sm:rounded-2xl border border-[#1b3461]/20 bg-white shadow-2xl overflow-hidden flex flex-col">
             <div className="bg-[#1b3461] px-4 sm:px-5 py-3 sm:py-4 flex items-start sm:items-center justify-between gap-3 shrink-0">
               <div className="min-w-0 pr-2">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#CC0000]">
-                  Programme Preview
+                  {PDF_PREVIEW_CONFIG[pdfPreview].eyebrow}
                 </p>
                 <h3 className="text-base sm:text-lg font-display font-black uppercase text-white leading-tight break-words mt-1">
-                  KZN Liquor Indaba Programme Information
+                  {PDF_PREVIEW_CONFIG[pdfPreview].title}
                 </h3>
               </div>
               <button
                 type="button"
-                onClick={() => setShowProgrammePreview(false)}
+                onClick={() => setPdfPreview(null)}
                 className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/30 text-xl text-white hover:bg-white/10 transition-colors touch-manipulation"
-                aria-label="Close programme preview"
+                aria-label="Close document preview"
               >
                 ×
               </button>
             </div>
             <div className="bg-[#f7f7f5] p-3 sm:p-6 overflow-y-auto flex flex-col flex-1 min-h-0">
-              {programmePreviewFailed ? (
+              {pdfPreviewFailed ? (
                 <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm p-6 text-center">
                   <p className="text-sm font-semibold text-[#1b3461]">
-                    Preview unavailable - please download the programme.
+                    {PDF_PREVIEW_CONFIG[pdfPreview].failMessage}
                   </p>
                 </div>
               ) : (
                 <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm flex-1 min-h-[45vh] sm:min-h-[320px]">
                   <iframe
-                    src="/KZN_Liquor_Indaba_Programme.pdf"
+                    key={pdfPreview}
+                    src={encodeURI(PDF_PREVIEW_CONFIG[pdfPreview].path)}
                     width="100%"
                     height="100%"
                     className="min-h-[45vh] sm:min-h-[500px] w-full"
                     style={{ border: 'none' }}
-                    title="KZN Liquor Indaba Programme"
-                    onError={() => setProgrammePreviewFailed(true)}
+                    title={PDF_PREVIEW_CONFIG[pdfPreview].iframeTitle}
+                    onError={() => setPdfPreviewFailed(true)}
                   />
                 </div>
               )}
               <div className="mt-4 flex flex-col-reverse sm:flex-row flex-wrap items-stretch sm:items-center justify-end gap-3 shrink-0">
                 <a
-                  href={programmeFileHref}
-                  download="KZN_Liquor_Indaba_Programme.pdf"
+                  href={encodeURI(PDF_PREVIEW_CONFIG[pdfPreview].path)}
+                  download={PDF_PREVIEW_CONFIG[pdfPreview].downloadFilename}
                   className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors touch-manipulation text-center"
                 >
-                  Download Programme
+                  {PDF_PREVIEW_CONFIG[pdfPreview].downloadLabel}
                 </a>
               </div>
             </div>
