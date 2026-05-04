@@ -331,7 +331,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
       <p className="max-w-7xl mx-auto px-4 sm:px-6 mt-4 text-sm text-[#1a1a1a] leading-relaxed break-words">
         The following attendance packages are subject to payment. The Indaba Pass costs R500, the
         Gala Dinner Pass costs R600, and the Indaba Combo Pass costs R900. Members of the Liquor
-        Trader Association receive a discounted rate of R300 for the Gala Dinner.
+        Trader Association will get complementary access to the Indaba and receive a discounted rate of R300 for the Gala Dinner through the relevant Association.
       </p>
 
       <section className="bg-white py-20">
