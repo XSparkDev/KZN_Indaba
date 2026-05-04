@@ -74,3 +74,83 @@
 .scroll-hint-arrow {
   animation: scrollHintArrowX 1s ease-in-out infinite;
 }
+
+@keyframes kznFilmMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.kzn-film-marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: kznFilmMarquee 48s linear infinite;
+}
+
+/* Slower on small screens so larger type stays readable while scrolling */
+@media (max-width: 639px) {
+  .kzn-film-marquee-track {
+    animation-duration: 72s;
+  }
+}
+
+.kzn-film-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kzn-film-marquee-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.5rem;
+    column-gap: 0.75rem;
+    transform: none;
+  }
+}
+
+.kzn-film-strip-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  background: linear-gradient(
+    180deg,
+    rgb(6 22 52 / 0.98) 0%,
+    rgb(15 35 72 / 0.97) 45%,
+    rgb(6 22 52 / 0.98) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    inset 0 -1px 0 rgb(0 0 0 / 0.35);
+}
+
+.kzn-film-strip-shell::before,
+.kzn-film-strip-shell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.65;
+  background-image: radial-gradient(circle at 50% 4px, rgb(255 255 255 / 0.38) 0 2px, transparent 3px);
+  background-size: 6px 10px;
+  background-repeat: repeat-y;
+}
+
+.kzn-film-strip-shell::before {
+  left: 0;
+}
+
+.kzn-film-strip-shell::after {
+  right: 0;
+}

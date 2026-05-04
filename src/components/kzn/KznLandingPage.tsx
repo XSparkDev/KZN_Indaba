@@ -190,8 +190,8 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       </div>
 
-      <section className="grid grid-cols-1 lg:grid-cols-[56%_44%] min-h-[90vh]">
-        <div className="bg-white px-6 sm:px-10 lg:px-14 py-10 flex flex-col justify-center">
+      <section className="grid grid-cols-1 lg:grid-cols-[56%_44%] lg:min-h-[90vh]">
+        <div className="bg-white px-4 sm:px-10 lg:px-14 py-8 sm:py-10 flex flex-col justify-center">
           <img
             src="/kznera-logo.png"
             alt="KZNERA"
@@ -237,11 +237,11 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
             ))}
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
             <button
               type="button"
               onClick={onRegisterClick}
-              className="inline-flex items-center justify-center bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#1b3461] transition-colors w-fit"
+              className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#1b3461] transition-colors touch-manipulation"
             >
               Register Now
             </button>
@@ -252,14 +252,14 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
                 setProgrammePreviewFailed(false);
                 setShowProgrammePreview(true);
               }}
-              className="inline-flex items-center justify-center bg-[#1b3461] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#102e5d] transition-colors w-fit"
+              className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#1b3461] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[#102e5d] transition-colors touch-manipulation text-center"
             >
               Programme
             </a>
           </div>
         </div>
 
-        <div className="relative min-h-[420px] lg:min-h-full overflow-hidden">
+        <div className="relative min-h-[280px] sm:min-h-[380px] lg:min-h-full overflow-hidden">
           {HERO_IMAGES.map((image, index) => (
             <img
               key={image}
@@ -274,27 +274,27 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
       </section>
 
       {showProgrammePreview ? (
-        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-4xl rounded-2xl border border-[#1b3461]/20 bg-white shadow-2xl overflow-hidden">
-            <div className="bg-[#1b3461] px-5 py-4 flex items-center justify-between gap-4">
-              <div>
+        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+          <div className="w-full max-w-4xl max-h-[100dvh] sm:max-h-[92dvh] rounded-t-2xl sm:rounded-2xl border border-[#1b3461]/20 bg-white shadow-2xl overflow-hidden flex flex-col">
+            <div className="bg-[#1b3461] px-4 sm:px-5 py-3 sm:py-4 flex items-start sm:items-center justify-between gap-3 shrink-0">
+              <div className="min-w-0 pr-2">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#CC0000]">
                   Programme Preview
                 </p>
-                <h3 className="text-lg font-display font-black uppercase text-white">
+                <h3 className="text-base sm:text-lg font-display font-black uppercase text-white leading-tight break-words mt-1">
                   KZN Liquor Indaba Programme Information
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowProgrammePreview(false)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/30 text-white hover:bg-white/10 transition-colors"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/30 text-xl text-white hover:bg-white/10 transition-colors touch-manipulation"
                 aria-label="Close programme preview"
               >
                 ×
               </button>
             </div>
-            <div className="bg-[#f7f7f5] p-4 md:p-6">
+            <div className="bg-[#f7f7f5] p-3 sm:p-6 overflow-y-auto flex flex-col flex-1 min-h-0">
               {programmePreviewFailed ? (
                 <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm p-6 text-center">
                   <p className="text-sm font-semibold text-[#1b3461]">
@@ -302,22 +302,23 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
                   </p>
                 </div>
               ) : (
-                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm">
+                <div className="rounded-xl border border-[#d1d5db] bg-white overflow-hidden shadow-sm flex-1 min-h-[45vh] sm:min-h-[320px]">
                   <iframe
                     src="/KZN_Liquor_Indaba_Programme.pdf"
                     width="100%"
                     height="100%"
-                    style={{ border: 'none', minHeight: '500px' }}
+                    className="min-h-[45vh] sm:min-h-[500px] w-full"
+                    style={{ border: 'none' }}
                     title="KZN Liquor Indaba Programme"
                     onError={() => setProgrammePreviewFailed(true)}
                   />
                 </div>
               )}
-              <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
+              <div className="mt-4 flex flex-col-reverse sm:flex-row flex-wrap items-stretch sm:items-center justify-end gap-3 shrink-0">
                 <a
                   href={programmeFileHref}
                   download="KZN_Liquor_Indaba_Programme.pdf"
-                  className="inline-flex items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors"
+                  className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center bg-[#CC0000] text-white px-6 py-3 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-[#990000] transition-colors touch-manipulation text-center"
                 >
                   Download Programme
                 </a>
@@ -327,7 +328,7 @@ export default function KznLandingPage({ onRegisterClick }: KznLandingPageProps)
         </div>
       ) : null}
 
-      <p className="max-w-7xl mx-auto px-6 mt-4 text-sm text-[#1a1a1a] leading-relaxed">
+      <p className="max-w-7xl mx-auto px-4 sm:px-6 mt-4 text-sm text-[#1a1a1a] leading-relaxed break-words">
         The following attendance packages are subject to payment. The Indaba Pass costs R500, the
         Gala Dinner Pass costs R600, and the Indaba Combo Pass costs R900. Members of the Liquor
         Trader Association receive a discounted rate of R300 for the Gala Dinner.
